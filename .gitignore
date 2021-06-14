@@ -2,4 +2,6 @@
 /examples/TestsData/
 /examples/MariosPizzeria/docs/
 /examples/MariosPizzeria/tmp/
+/var/
 .phpunit.result.cache
+.phpdoc
