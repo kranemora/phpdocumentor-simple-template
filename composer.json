@@ -11,7 +11,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "kranemora\\phpDocumentor\\": "src/"
+            "kranemora\\phpDocumentor\\": "src/",
+            "phpDocumentor\\": ["src/phpDocumentor/", "vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/"]
         }
     },
     "require": {
