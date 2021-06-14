@@ -228,7 +228,9 @@ HELP
             ->addOption(
                 'sourcecode',
                 null,
-                InputOption::VALUE_NONE,
+                // Hack to fix: Default package name in phpdoc.xml not working 
+                //InputOption::VALUE_NONE,
+                InputOption::VALUE_OPTIONAL,
                 'Whether to include syntax highlighted source code'
             )
             ->addOption(

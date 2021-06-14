@@ -5039,7 +5039,6 @@
             "time": "2021-03-09T10:59:23+00:00"
         }
     ],
-<<<<<<< HEAD
     "packages-dev": [
         {
             "name": "doctrine/instantiator",
@@ -6834,9 +6833,6 @@
             "time": "2020-07-12T23:59:07+00:00"
         }
     ],
-=======
-    "packages-dev": [],
->>>>>>> 853a999 (feat: initial structure)
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": [],

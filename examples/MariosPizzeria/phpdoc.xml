@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<phpdocumentor>
-    <parser>
-        <default-package-name>Marios</default-package-name>
-        <target>tmp/docs-cache</target>
-    </parser>
-    <transformer>
-        <target>docs</target>
-    </transformer>
-    <files>
-        <directory>.</directory>
-        <ignore>tests/**/*</ignore>
-        <ignore>build/**/*</ignore>
-    </files>
-    <transformations>
-        <template name="default" />
-    </transformations>
+<phpdocumentor configVersion="3.0" title="Simple Template Example">
+  <paths>
+    <output>docs</output>
+    <cache>tmp/docs-cache</cache>
+  </paths>
+  <version number="3.0">
+    <api format="php">
+      <source dsn=".">
+      <path>src</path>
+      </source>
+      <default-package-name>Marios</default-package-name>
+      <include-source>true</include-source>
+    </api>
+  </version>
+  <template name="clean">
+  </template>
 </phpdocumentor>
