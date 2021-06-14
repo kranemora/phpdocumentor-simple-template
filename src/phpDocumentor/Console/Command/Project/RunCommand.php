@@ -276,26 +276,35 @@ HELP
         $output->writeln('phpDocumentor ' . $this->getApplication()->getVersion());
         $output->writeln('');
 
+        // Code that is not covered by phpDocumentor
+        // @codeCoverageIgnoreStart
         if ($input->getOption('list-settings')) {
             return ($this->getApplication()->find('settings:list'))
                 ->run(new ArrayInput([]), $output);
         }
+        // @codeCoverageIgnoreEnd
 
         $this->observeProgressToShowProgressBars($output);
 
         $pipeLine = $this->pipeline;
         $pipeLine($input->getOptions());
 
+        // Code that is not covered by phpDocumentor
+        // @codeCoverageIgnoreStart
         if ($output->getVerbosity() === OutputInterface::VERBOSITY_DEBUG) {
             file_put_contents('ast.dump', serialize($this->projectDescriptorBuilder->getProjectDescriptor()));
         }
+        // @codeCoverageIgnoreEnd
 
         $event->stop();
         $output->writeln('');
 
+        // Code that is not covered by phpDocumentor
+        // @codeCoverageIgnoreStart
         if ($output->getVerbosity() === OutputInterface::VERBOSITY_VERBOSE) {
             $output->writeln(sprintf('Observed max. memory usage: %s mb', round($event->getMemory() / 1024 / 1024, 2)));
         }
+        // @codeCoverageIgnoreEnd
 
         $output->writeln(sprintf('All done in %s!', $this->durationInText($event)));
 
@@ -348,10 +357,13 @@ HELP
     {
         $durationText = '';
         $duration = round($event->getDuration() / 1000);
+        // Code that is not covered by phpDocumentor
+        // @codeCoverageIgnoreStart
         if ($duration > 59) {
             $minutes = floor($duration / 60);
             $durationText .= sprintf('%s minute%s ', $minutes, $minutes > 1 ? 's' : '');
         }
+        // @codeCoverageIgnoreEnd
 
         $durationText .= ($duration % 60) . ' seconds';
 
