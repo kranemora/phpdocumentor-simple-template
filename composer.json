@@ -11,13 +11,21 @@
     ],
     "autoload": {
         "psr-4": {
-            "kranemora\\phpDocumentor\\": "src/"
+            "kranemora\\phpDocumentor\\": "src/",
+            "phpDocumentor\\": ["src/phpDocumentor/", "vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/"]
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "phpDocumentor\\": "tests/TestCase/phpDocumentor/",
+            "Prophecy\\": "tests/TestCase/Prophecy/"
         }
     },
     "require": {
         "phpdocumentor/phpdocumentor": "^3.0"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.5"
+        "phpunit/phpunit": "^9.5",
+        "phpspec/prophecy-phpunit": "^2.0"
     }
 }
