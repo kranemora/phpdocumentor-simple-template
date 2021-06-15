@@ -48,10 +48,13 @@ class EnvironmentFactory
         $this->markDownConverter = $markDownConverter;
     }
 
+    // Code that is not covered by phpDocumentor
+    // @codeCoverageIgnoreStart
     public function withTemplateOverridesAt(Path $path) : void
     {
         $this->templateOverridesAt = $path;
     }
+    // @codeCoverageIgnoreEnd
 
     public function create(
         ProjectDescriptor $project,
@@ -61,9 +64,13 @@ class EnvironmentFactory
         $mountManager = $transformation->template()->files();
 
         $loaders = [];
+
+        // Code that is not covered by phpDocumentor
+        // @codeCoverageIgnoreStart
         if ($this->templateOverridesAt instanceof Path) {
             $loaders[] = new FilesystemLoader([(string) $this->templateOverridesAt]);
         }
+        // @codeCoverageIgnoreEnd
 
         $loaders[] = new FlySystemLoader($mountManager->getFilesystem('template'), '', 'base');
         $loaders[] = new FlySystemLoader($mountManager->getFilesystem('templates'));
