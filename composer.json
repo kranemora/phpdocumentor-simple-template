@@ -11,7 +11,6 @@
     ],
     "autoload": {
         "psr-4": {
-            "kranemora\\phpDocumentor\\": "src/phpDocumentor/",
             "kranemora\\Twig\\": "src/Twig/",
             "phpDocumentor\\": ["src/phpDocumentor/", "vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/"]
         }
@@ -19,7 +18,8 @@
     "autoload-dev": {
         "psr-4": {
             "phpDocumentor\\": "tests/TestCase/phpDocumentor/",
-            "Prophecy\\": "tests/TestCase/Prophecy/"
+            "Prophecy\\": "tests/TestCase/Prophecy/",
+            "kranemora\\Twig\\": "tests/TestCase/Twig/"
         }
     },
     "require": {
