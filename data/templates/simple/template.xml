@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<template>
+  <name>simple</name>
+  <author>Fernando Pita</author>
+  <email>kranemora@gmail.com</email>
+  <version>1.0.0</version>
+  <transformations>
+    <transformation query="copy" writer="FileIo" source="favicon" artifact="."/>
+    <transformation query="copy" writer="FileIo" source="css" artifact="css"/>
+    <transformation query="copy" writer="FileIo" source="js" artifact="js"/>
+    <transformation writer="twig" source="templates/simple/search.json.twig" artifact="js/search.json" />
+    <transformation writer="twig" source="templates/simple/index.html.twig" artifact="index.html"/>
+    <transformation writer="twig" source="templates/simple/reports/errors.html.twig" artifact="reports/errors.html"/>
+    <transformation writer="twig" source="templates/simple/reports/markers.html.twig" artifact="reports/markers.html"/>
+    <transformation writer="twig" source="templates/simple/reports/deprecated.html.twig" artifact="reports/deprecated.html"/>
+    <transformation query="indexes.namespaces" writer="twig" source="templates/simple/namespace.html.twig" />
+    <transformation query="indexes.packages" writer="twig" source="templates/simple/package.html.twig" />
+    <transformation query="indexes.classes" writer="twig" source="templates/simple/class.html.twig" />
+    <transformation query="files" writer="twig" source="templates/simple/file.html.twig" />
+  </transformations>
+</template>
