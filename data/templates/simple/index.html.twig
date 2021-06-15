@@ -1,7 +1,15 @@
 {% extends 'layout.html.twig' %}
+{% import 'elements/macros.html.twig' as macros %}
 
 {% block content %}
     {% import _self as self -%}
     <main>
+    {{ macros.summary(project.indexes.namespaces, project.namespace, 'Namespaces', true) }}
+    {{ macros.summary(project.indexes.packages, project.package, 'Packages', true) }}
+    {{ macros.summary(project.files, null, 'Files', true) }}
     </main>
 {% endblock content %}
+
+{% block js %}
+    $('.element li a').overflow();
+{% endblock js %}
