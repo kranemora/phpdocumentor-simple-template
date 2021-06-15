@@ -12,7 +12,7 @@
  */
 declare(strict_types=1);
 
-namespace kranemora\phpDocumentor\Twig\Extension;
+namespace kranemora\Twig\Extension;
 
 use \ArrayIterator;
 use phpDocumentor\Descriptor\Collection;
