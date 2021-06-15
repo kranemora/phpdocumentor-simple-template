@@ -13,7 +13,7 @@
         <h2>{{title}}</h2>
         <ul class="element">
             {% if title|lower == 'files' %}
-                {% for index in collection|sort_asc %}
+                {% for index in collection|sortfqsen_asc %}
                     <li><a href="{{ link(index) }}">{{ index.path }}</a></li>
                 {% endfor %}
             {% else %}

@@ -4,6 +4,8 @@
   <author>Fernando Pita</author>
   <email>kranemora@gmail.com</email>
   <version>1.0.0</version>
+  <parameter key="twig-debug">true</parameter>
+  <parameter key="twig-extension">kranemora\phpDocumentor\Twig\Extension\CustomExtension</parameter>
   <transformations>
     <transformation query="copy" writer="FileIo" source="favicon" artifact="."/>
     <transformation query="copy" writer="FileIo" source="css" artifact="css"/>

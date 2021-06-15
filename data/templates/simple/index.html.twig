@@ -4,9 +4,9 @@
 {% block content %}
     {% import _self as self -%}
     <main>
-    {{ macros.summary(project.indexes.namespaces, project.namespace, 'Namespaces', true) }}
-    {{ macros.summary(project.indexes.packages, project.package, 'Packages', true) }}
-    {{ macros.summary(project.files, null, 'Files', true) }}
+    {{ macros.summary(project.indexes.namespaces, project.namespace, 'Namespaces') }}
+    {{ macros.summary(project.indexes.packages, project.package, 'Packages') }}
+    {{ macros.summary(project.files, null, 'Files') }}
     </main>
 {% endblock content %}
 
