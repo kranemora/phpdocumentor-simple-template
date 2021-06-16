@@ -1,1 +1,54 @@
 {% extends 'layout.html.twig' %}
+{% import 'elements/macros.html.twig' as macros %}
+
+{% block title %}{{ node.FullyQualifiedStructuralElementName }} | {{ project.name }}{% endblock %}
+
+{% block content %}
+    {% import _self as self %}
+    <nav class="breadcrumb">
+    {{ macros.buildBreadcrumb(node) }}
+    </nav>
+    <main class="package">
+    {{ macros.summary(node.children, node, 'Packages', false) }}
+    {% if node.constants is not empty %}
+        <article>
+            <h2>Constants</h2>
+            {% for constant in node.constants|sort_asc %}
+                {{ macros.elementSummary(constant) }}
+            {% endfor %}
+        </article>
+    {% endif %}
+    {% if node.functions is not empty %}
+        <article>
+            <h2>Functions</h2>
+            {% for function in node.functions|sort_asc %}
+                {{ macros.elementSummary(function) }}
+            {% endfor %}
+        </article>
+    {% endif %}
+    {% if node.classes|length > 0 %}
+        <article>
+            <h2>Classes</h2>
+            {% for class in node.classes|sort_asc %}
+                {{ macros.elementSummary(class) }}
+            {% endfor %}
+        </article>
+    {% endif %}
+    {% if node.interfaces|length > 0 %}
+        <article>
+            <h2>Interfaces</h2>
+            {% for interface in node.interfaces|sort_asc %}
+                {{ macros.elementSummary(interface) }}
+            {% endfor %}
+        </article>
+    {% endif %}
+    {% if node.traits|length > 0 %}
+        <article>
+            <h2>Traits</h2>
+            {% for trait in node.traits|sort_asc %}
+                {{ macros.elementSummary(trait) }}
+            {% endfor %}
+        </article>
+    {% endif %}
+    </main>
+{% endblock %}

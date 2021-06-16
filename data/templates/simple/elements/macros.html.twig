@@ -65,5 +65,9 @@
     {% if element.name != '\\' and element.parent.name != '\\' %}
     <span class="divider">\</span>
     {% endif %}
-    <a href="{{ link(element) }}">{{ element.name }}</a>
+    {% if descriptor(element) == 'package' and element.name != '\\' %}
+        <a href="{{- link(element) -}}">{{- element.name -}}</a>
+    {% else %}
+        <span class="divider">\</span>
+    {% endif %}
 {% endmacro %}
