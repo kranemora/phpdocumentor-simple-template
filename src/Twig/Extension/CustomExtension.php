@@ -21,6 +21,9 @@ use phpDocumentor\Descriptor\DescriptorAbstract;
 /**
  * Custom Extension adding phpDocumentor specific functionality for Twig templates.
  *
+ * Additional functions:
+ * - descriptor(element): get the type of the element (function, method, constant, property)
+ * 
  * Additional filters:
  * - sortfqsen_desc: Sorts the given objects by their Path (FileDescriptor) or FullyQualifiedStructuralElementName
  * (any other) in a descending fashion
@@ -36,6 +39,21 @@ use phpDocumentor\Descriptor\DescriptorAbstract;
 class CustomExtension extends \Twig\Extension\AbstractExtension
 {
     /**
+     * Returns a listing of all functions that this extension adds.
+     *
+     * This method is automatically used by Twig upon registering this extension (which is done automatically
+     * by phpDocumentor) to determine an additional list of functions.
+     *
+     * @return \Twig_FunctionInterface[]
+     */
+    public function getFunctions() : array
+    {
+        return array(
+            new \Twig\TwigFunction('descriptor', array($this, 'descriptor'))
+        );
+    }
+
+    /**
      * Returns a list of all filters that are exposed by this extension.
      *
      * @return \Twig_SimpleFilter[]
@@ -45,6 +63,25 @@ class CustomExtension extends \Twig\Extension\AbstractExtension
         return array(
             'sortfqsen' => new \Twig\TwigFilter('sortfqsen_*', array($this, 'sortfqsen')),
         );
+    }
+
+    /**
+     * Get the type of the element (function, method, constant, property)
+     *
+     * @param \phpDocumentor\Descriptor\DescriptorAbstract|string $element Element descriptor
+     *
+     * @return string Type of the element
+     */
+    public function descriptor($element) : string
+    {
+        if ($element instanceof DescriptorAbstract ) {
+            $className = explode('\\', get_class($element));
+            return strtolower(str_replace('Descriptor', '', $className[count($className)-1]));
+        } elseif (gettype($element) == 'string') {
+            return $element;
+        } else {
+            return '';
+        }
     }
 
     /**
