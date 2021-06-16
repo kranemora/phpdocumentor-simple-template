@@ -1,0 +1,34 @@
+    <div class="more target-constant">
+    {% if element.description %}
+        <div class="long-description">{{ element.description|markdown|raw }}</div>
+    {% endif %}
+        <ul class="labels">
+            <li>{{ element.visibility }}</li>
+        </ul>
+        <pre><code>{{ element.name }} : {{ not element.type ? "mixed" : element.type|route('class:short')|join('|')|raw }} = {{ element.value }}</code></pre>
+        <div class="table-wrapper">
+            <table class="metadata">
+            {% for tagList in element.tags if tagList.0.name and tagList.0.name not in ['const', 'var', 'package'] %}
+                <tr>
+                    <th><div class="th">{{ tagList.0.name }}</div></th>
+                    <td>
+                    {% for tag in tagList %}
+                        {% if (tag.name == "since" or "deprecated" and tag.version) %}
+                            <p>{{ tag.version }}</p>
+                        {% elseif (tag.name == "see" and tag.reference) %}
+                            <p>{{ tag.reference|route|raw }}</p>
+                        {% endif %}
+                        {% if tag.description %}
+                            {{ tag.description|markdown|raw }}
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <th><div class="th">source</div></th>
+                    <td><p><a href="{{link(element.file)}}#L-{{element.line}}">{{element.file.path}}</a></p></td>
+                </tr>
+            </table>
+        </div>
+    </div>

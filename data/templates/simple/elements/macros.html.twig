@@ -1,5 +1,6 @@
-{% macro summary(collection, descriptor, title) %}
-    {% import _self as self -%}
+{% macro summary(collection, descriptor, title, index) %}
+    {% import _self as self %}
+    {% set type = descriptor(descriptor) %}
     {% set count = 0 %}
     {% if collection is not empty %}
         {% for index in collection %}
@@ -12,12 +13,12 @@
     <article class="{{title|lower}}">
         <h2>{{title}}</h2>
         <ul class="element">
-            {% if title|lower == 'files' %}
+            {% if type == 'file' %}
                 {% for index in collection|sortfqsen_asc %}
                     <li><a href="{{ link(index) }}">{{ index.path }}</a></li>
                 {% endfor %}
             {% else %}
-                {% if descriptor.functions is not empty or descriptor.constants is not empty or descriptor.classes is not empty or descriptor.interfaces is not empty or descriptor.traits is not empty %}
+                {% if index and (descriptor.functions is not empty or descriptor.constants is not empty or descriptor.classes is not empty or descriptor.interfaces is not empty or descriptor.traits is not empty) %}
                     <li><a href="{{ link(descriptor) }}">{{ descriptor }}</a></li>
                 {% endif %}
                 {{ self.summaryList(descriptor.children) }}
@@ -37,4 +38,32 @@
             {{ self.summaryList(element.children) }}
         {% endif %}
     {% endfor %}
+{% endmacro %}
+
+{% macro elementSummary(element) %}
+    {% set type = descriptor(element) %}
+    <section class="element" id="{{ type }}_{{ element.name }}">
+        {% if type == 'constant' or type == 'function' %}
+        <h3 class="handler-{{type}}">{{ element.name }} {% if element.deprecated %} <strong class="deprecated">deprecated</strong>{% endif %}</h3>
+        {% else %}
+        <h3><a href="{{ link(element) }}">{{ element.name }}</a>{% if element.deprecated %} <strong class="deprecated">deprecated</strong>{% endif %}</h3>
+        {% endif %}
+        <div class="details">
+            <p class="summary">{% if element.summary %}{{ element.summary }}{% else %}<span>No description</span>{% endif %}</p>
+            {% if type == 'constant' or type == 'function' %}
+            {% include 'elements/'~type~'.html.twig' with {'element': element} %}
+            {% endif %}
+        </div>
+    </section>
+{% endmacro %}
+
+{% macro buildBreadcrumb(element) %}
+    {% import _self as self %}
+    {% if element.parent %}
+        {{ self.buildBreadcrumb(element.parent) }}
+    {% endif %}
+    {% if element.name != '\\' and element.parent.name != '\\' %}
+    <span class="divider">\</span>
+    {% endif %}
+    <a href="{{ link(element) }}">{{ element.name }}</a>
 {% endmacro %}
