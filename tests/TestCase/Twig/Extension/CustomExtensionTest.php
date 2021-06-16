@@ -45,6 +45,7 @@ class CustomExtensionTest extends TestCase
         $twig = new Environment($this->createMock('\Twig\Loader\LoaderInterface'));
         $twig->addExtension(new CustomExtension());
         $this->assertArrayHasKey('descriptor', $twig->getFunctions());
+        $this->assertArrayHasKey('highlight', $twig->getFunctions());
         $this->assertArrayHasKey('sortfqsen_*', $twig->getFilters());
     }
 
@@ -71,6 +72,26 @@ class CustomExtensionTest extends TestCase
         $this->assertEquals('constant', $twig->render('func_descriptor', ['element' => $descriptor]));
         $this->assertEquals('constant', $twig->render('func_descriptor', ['element' => 'constant']));
         $this->assertEquals('', $twig->render('func_descriptor', ['element' => null]));
+    }
+
+    /**
+     * Test highlight function.
+     *
+     * @return void
+     */
+    public function testHighlighFunction() : void
+    {
+        $loader = new ArrayLoader(
+            [
+            'func_highlight' => '{{ highlight("<?php echo \"Hello world!\"; ?>")|raw }}'
+            ]
+        );
+
+        $twig = new Environment($loader);
+        $twig->addExtension(new CustomExtension());
+
+        $expected = '<span id="L-1" class="line">1: </span><span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> <span class="php-quote">&quot;Hello world!&quot;</span>; <span class="xlang">?&gt;</span>';
+        $this->assertEquals($expected, $twig->render('func_highlight'));
     }
 
     public function testSortfqsenNoFileFilter() : void
