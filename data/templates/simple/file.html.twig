@@ -1,1 +1,45 @@
 {% extends 'layout.html.twig' %}
+
+{% block title %}{{ node.path }} | {{ project.name }}{% endblock %}
+
+{% block content %}
+    <main class="namespaces">
+        <h2>{{node.name}}</h2>
+        <p class="short-description">{% if node.summary %}{{ node.summary }}{% else %}No description.{% endif %}</p>
+        {% if node.description %}
+        <div class="long-description">
+            {{ node.description|markdown|raw }}
+        </div>
+        {% endif %}
+        <div class="table-wrapper">
+            <table class="metadata">
+                <tr>
+                    <th><div class="th">package</div></th>
+                    <td><p><a href="{{link(node.package)}}">{{ node.package.fullyQualifiedStructuralElementName }}</a></p></td>
+                </tr>
+            {% for tagList in node.tags if tagList.0.name and tagList.0.name not in ['package', 'subpackage'] %}
+                <tr>
+                    <th><div class="th">{{ tagList.0.name }}</div></th>
+                    <td>
+                    {% for tag in tagList %}
+                        {% if (tag.name == "since" or "deprecated" and tag.version) %}
+                            <p>{{ tag.version }}</p>
+                        {% elseif (tag.name == "see" and tag.reference) %}
+                            <p>{{ tag.reference|route|raw }}</p>
+                        {% elseif (tag.name == 'link') %}
+                            <p>{{ tag.link|route|raw }}</p>
+                        {% endif %}
+                        {% if tag.description %}
+                            {{ tag.description|markdown|raw }}
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </table>
+        </div>
+        <div class="source">
+            <pre>{{node.source|raw}}</pre>
+        </div>
+    </main>
+{% endblock %}
