@@ -23,6 +23,7 @@ use phpDocumentor\Descriptor\DescriptorAbstract;
  *
  * Additional functions:
  * - descriptor(element): get the type of the element (function, method, constant, property)
+ * - highlight(string): Get source code with sintaxis highlight
  * 
  * Additional filters:
  * - sortfqsen_desc: Sorts the given objects by their Path (FileDescriptor) or FullyQualifiedStructuralElementName
@@ -49,7 +50,8 @@ class CustomExtension extends \Twig\Extension\AbstractExtension
     public function getFunctions() : array
     {
         return array(
-            new \Twig\TwigFunction('descriptor', array($this, 'descriptor'))
+            new \Twig\TwigFunction('descriptor', array($this, 'descriptor')),
+            new \Twig\TwigFunction('highlight', array($this, 'highlight'))
         );
     }
 
@@ -82,6 +84,30 @@ class CustomExtension extends \Twig\Extension\AbstractExtension
         } else {
             return '';
         }
+    }
+
+    /**
+     * Get source code with sintaxis highlight
+     *
+     * @param $source String Source code
+     *
+     * @return string Source code with sintaxis highlight
+     */
+    public function highlight(string $source) : string
+    {
+        $highlighter = new \FSHL\Highlighter(
+            new \FSHL\Output\Html(),
+            \FSHL\Highlighter::OPTION_TAB_INDENT | \FSHL\Highlighter::OPTION_LINE_COUNTER
+        );
+        $source = $highlighter->highlight($source, new \FSHL\Lexer\Php());
+        $sourceLines = explode("\n", $source);
+
+        foreach ($sourceLines as $k => $v) {
+            $sourceLines[$k] = str_replace('<span class="line">', '<span id="L-'.($k+1).'" class="line">', $v);
+        }
+        $source = implode("\n", $sourceLines);
+
+        return $source;
     }
 
     /**

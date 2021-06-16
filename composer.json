@@ -23,7 +23,8 @@
         }
     },
     "require": {
-        "phpdocumentor/phpdocumentor": "^3.0"
+        "phpdocumentor/phpdocumentor": "^3.0",
+        "kukulich/fshl": "^2.1"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
