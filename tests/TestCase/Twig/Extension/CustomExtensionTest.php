@@ -44,7 +44,33 @@ class CustomExtensionTest extends TestCase
     {
         $twig = new Environment($this->createMock('\Twig\Loader\LoaderInterface'));
         $twig->addExtension(new CustomExtension());
+        $this->assertArrayHasKey('descriptor', $twig->getFunctions());
         $this->assertArrayHasKey('sortfqsen_*', $twig->getFilters());
+    }
+
+    /**
+     * Test descriptor function.
+     *
+     * @return void
+     */
+    public function testDescriptorFunction() : void
+    {
+        $loader = new ArrayLoader(
+            [
+            'func_descriptor' => '{{ descriptor(element) }}'
+            ]
+        );
+
+        $twig = new Environment($loader);
+        $twig->addExtension(new CustomExtension());
+
+        $descriptor = new \phpDocumentor\Descriptor\ConstantDescriptor();
+        $descriptor->setNamespace('\My\Namespace');
+        $descriptor->setName('CONSTANT');
+
+        $this->assertEquals('constant', $twig->render('func_descriptor', ['element' => $descriptor]));
+        $this->assertEquals('constant', $twig->render('func_descriptor', ['element' => 'constant']));
+        $this->assertEquals('', $twig->render('func_descriptor', ['element' => null]));
     }
 
     public function testSortfqsenNoFileFilter() : void
