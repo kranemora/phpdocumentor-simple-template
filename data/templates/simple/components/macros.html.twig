@@ -51,7 +51,7 @@
         <div class="details">
             <p class="summary">{% if element.summary %}{{ element.summary }}{% else %}<span>No description</span>{% endif %}</p>
             {% if type == 'constant' or type == 'function' %}
-            {% include 'elements/'~type~'.html.twig' with {'element': element} %}
+            {% include 'components/'~type~'.html.twig' with {'element': element} %}
             {% endif %}
         </div>
     </section>
