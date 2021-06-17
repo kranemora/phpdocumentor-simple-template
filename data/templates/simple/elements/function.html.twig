@@ -13,7 +13,7 @@
         {% for argument in element.arguments %}
             {% if argument.default %}{% set signature = signature~'[' %}{% endif %}
             {% if not loop.first %}{% set signature = signature~', ' %}{% endif %}
-            {% set signature = signature~argument.type|route('class:short')|join('|')|raw~' ' %}
+            {% set signature = signature~argument.type|route('class:short')|join('|')~' ' %}
             {% if argument.isVariadic %}{% set signature = signature~'...' %}{% endif %}
             {% if argument.byReference %}{% set signature = signature~'&' %}{% endif %}
             {% set signature = signature~'$'~argument.name %}
@@ -24,8 +24,8 @@
             {% endif %}
         {% endfor %}
         {% set signature = signature~') : ' %}
-        {% set signature = signature~element.response.type|route('class:short')|join('|')|raw %}
-        <pre><code>{{ signature|trim(side='left') }}</code></pre>
+        {% set signature = signature~element.response.type|route('class:short')|join('|') %}
+        <pre><code>{{ signature|trim(side='left')|raw }}</code></pre>
         <div class="table-wrapper">
             <table class="metadata">
             {% for tagList in element.tags if tagList.0.name and tagList.0.name not in ['param', 'return', 'api', 'throws', 'throw', 'package'] %}
