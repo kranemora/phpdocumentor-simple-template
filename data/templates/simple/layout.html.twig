@@ -45,6 +45,10 @@
     <script type="text/javascript">
         jQuery(function(){
             $('.handler-reports').menuHandler({'target': 'ul'});
+            $('.handler-method').menuHandler({'target': '.target-method'});
+            $('.handler-function').menuHandler({'target': '.target-function'});
+            $('.handler-constant').menuHandler({'target': '.target-constant'});
+            $('.handler-property').menuHandler({'target': '.target-property'});
             $('#search').search({
                 json:'{{path('js/search.json')}}'
             });

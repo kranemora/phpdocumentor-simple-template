@@ -51,39 +51,39 @@
                 </tr>
             </table>
         </div>
+        {% if element.arguments|length > 0 %}
+        <section>
+            <h5>Parameters</h5>
+            <dl>
+            {% for argument in element.arguments -%}
+                <dt><code>{{ argument.name }} : {{ argument.type|route('class:short')|join('|')|raw }}{% if argument.default %} = {{ argument.default }}{% endif %}</code></dt>
+                <dd>{% if argument.description|description %}{{ argument.description|description|markdown }}{% else %}<p>No description.</p>{% endif %}</dd>
+            {% endfor -%}
+            </dl>
+        </section>
+        {% endif %}
+        {% if (element.response.type and element.response.type != 'void') or element.response.description %}
+        <section>
+            <h5>Return values</h5>
+            <dl>
+                <dt><code>{{ element.response.type|route('class:short')|join('|')|raw }}</code></dt>
+                <dd>{% if element.response.description|description %}{{ element.response.description|description|markdown }}{% else %}<p>No description.</p>{% endif %}</dd>
+            </dl>
+        </section>
+        {% endif %}
+        {% if element.tags.throws|length > 0 or element.tags.throw|length > 0 %}
+        <section>
+            <h5>Throws</h5>
+            <dl>
+            {% for exception in element.tags.throws %}
+                <dt><code>{{ exception.types|route|join('|')|raw }}</code></dt>
+                <dd>{% if exception.description %}{{ exception.description|markdown|raw }}{% else %}<p>No description.</p>{% endif %}</dd>
+            {% endfor %}
+            {% for exception in element.tags.throw %}
+                <dt><code>{{ exception.types|route|join('|')|raw }}</code></dt>
+                <dd>{% if exception.description %}{{ exception.description|markdown|raw }}{% else %}<p>No description.</p>{% endif %}</dd>
+            {% endfor %}
+            </dl>
+        </section>
     </div>
-    {% if element.arguments|length > 0 %}
-    <section>
-        <h5>Parameters</h5>
-        <dl>
-        {% for argument in element.arguments -%}
-            <dt><code>{{ argument.name }} : {{ argument.type|route('class:short')|join('|')|raw }}{% if argument.default %} = {{ argument.default }}{% endif %}</code></dt>
-            <dd>{% if argument.description %}{{ argument.description|description|markdown }}{% else %}<p>No description.</p>{% endif %}</dd>
-        {% endfor -%}
-        </dl>
-    </section>
-    {% endif %}
-    {% if (element.response.type and element.response.type != 'void') or element.response.description %}
-    <section>
-        <h5>Return values</h5>
-        <dl>
-            <dt><code>{{ element.response.type|route('class:short')|join('|')|raw }}</code></dt>
-            <dd>{% if element.response.description|description %}{{ element.response.description|description|markdown }}{% else %}<p>No description.</p>{% endif %}</dd>
-        </dl>
-    </section>
-    {% endif %}
-    {% if element.tags.throws|length > 0 or element.tags.throw|length > 0 %}
-    <section>
-        <h5>Throws</h5>
-        <dl>
-        {% for exception in element.tags.throws %}
-            <dt><code>{{ exception.types|route|join('|')|raw }}</code></dt>
-            <dd>{% if exception.description %}{{ exception.description|markdown|raw }}{% else %}<p>No description.</p>{% endif %}</dd>
-        {% endfor %}
-        {% for exception in element.tags.throw %}
-            <dt><code>{{ exception.types|route|join('|')|raw }}</code></dt>
-            <dd>{% if exception.description %}{{ exception.description|markdown|raw }}{% else %}<p>No description.</p>{% endif %}</dd>
-        {% endfor %}
-        </dl>
-    </section>
     {% endif -%}

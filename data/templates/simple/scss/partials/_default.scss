@@ -1,0 +1,385 @@
+body{
+    &>header{
+        background-color: $color-green;
+        .container{
+            position: relative;
+            @media only screen and (min-width: 560px) {
+                display: flex;
+                flex-flow: row nowrap;
+                justify-content: space-between;
+                align-items: flex-end;
+            }
+            @media only screen and (min-width: 1230px) {
+                width: 1200px;
+                margin: 0 auto;
+            }
+        }
+        .brand{
+            padding: 0;
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: normal;
+            padding: 0.25em 5em 0.25em 10px;
+            color: $color-white;
+            @media only screen and (min-width: 560px) {
+                padding: 0.25em 10px 0.25em;
+            }
+            @media only screen and (min-width: 768px) {
+                padding: 0.25em 50px;
+            }
+            a{
+                color:$color-white;
+                &:hover{
+                    color: $color-dark-green;
+                }
+            }
+        }
+        nav{
+            &>h2{
+                background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyIiBoZWlnaHQ9IjEwIj48cGF0aCBmaWxsPSIjZmZmZmZmIiBkPSJNMCAwaDJ2Mkgwek0wIDRoMnYySDB6TTAgOGgydjJIMHoiLz48L3N2Zz4K);
+                background-repeat: no-repeat;
+                background-size: auto 2em;
+                background-position: right top;
+                margin: 0;
+                padding: 0.75em 18px 0.5em 0;
+                position: absolute;
+                top: 0.91666666666666666666666666666667em;
+                right: 10px;
+                font-size: 0.75em;
+                color: $color-white;
+                font-weight: normal;
+                text-transform: uppercase;
+                cursor: pointer;
+                @media only screen and (min-width: 560px) {
+                    display: none;
+                }
+            }
+            ul{
+                display: none;
+                list-style: none;
+                margin: 0;
+                padding: 0.5em 0;
+                font-size: 1em;
+                background-color: $color-light-gray;
+                border-bottom: 1px solid $color-dark-gray;
+                @media only screen and (min-width: 560px) {
+                    display: block;
+                    min-width: 15.5em;
+                    background-color: transparent;
+                    border-bottom: none;
+                    margin-right: 10px;
+                    text-align: right;
+                }
+                @media only screen and (min-width: 768px) {
+                    margin-right: 50px;
+                }
+                li{
+                    @media only screen and (min-width: 560px) {
+                        display: inline-block;
+                    }
+                }
+            }
+            a{
+                color: $color-gray;
+                display: block;
+                padding: 0.25em 10px;
+                @media only screen and (min-width: 560px) {
+                    padding: 0;
+                    color: $color-white;
+                    margin-left: 1em;
+                    border-top:1px solid $color-green;
+                    border-bottom:1px solid $color-green;
+                }
+                &:hover{
+                    background-color: $color-dark-gray;
+                    @media only screen and (min-width: 560px) {
+                        color: darken($color-green, 25%);
+                        background-color: transparent;
+                        border-top:1px solid $color-dark-green;
+                        border-bottom:1px solid $color-dark-green;
+                    }
+                }
+            }
+        }
+    }
+}
+.search{
+    margin: 1.5em auto;
+    padding: 0 10px;
+    position: relative;
+    text-align: right;
+    @media only screen and (min-width: 768px) {
+        padding: 0 50px;
+    }
+    @media only screen and (min-width: 1230px) {
+        width: 1100px;
+    }
+    input{
+        outline: 0;
+        padding: 0.5em 9px;
+        border:1px solid $color-dark-gray;
+        &:focus{
+            outline: 0;
+            padding: 0.5em 9px;
+            border:1px solid $color-green;
+        }
+    }
+    ul{
+        margin:0 10px 0 30px;
+        padding: 1em;
+        list-style: none;
+        text-align: left;
+        background-color:$color-light-green;
+        @media only screen and (min-width: 768px) {
+            margin: 0 50px 0 100px;
+        }
+        li{
+            font-size: 1.125em;
+            border-bottom: 1px solid darken($color-green, 25%);
+            &:hover{
+                background-color: $color-light-gray;
+            }
+            a{
+                padding: 0.5em 10px;
+                display: block;
+                &:hover{
+                    background-color: $color-light-gray;
+                }
+            }
+            small{
+                display: block;
+                color: $color-gray;
+            }
+        }
+    }
+}
+#search-result{
+    position: absolute;
+    top:100%;
+    right: 0;
+    margin-top: 1em;
+    width: 100%;
+    box-sizing: border-box;
+    z-index: 1;
+}
+.breadcrumb{
+    color:$color-gray;
+    border: 1px solid $color-dark-gray;
+    padding: 0.375em 10px;
+    margin: 1em 9px 0;
+    font-size: 1em;
+    @media only screen and (min-width: 768px) {
+        margin: 1em 50px 0;
+    }
+    @media only screen and (min-width: 1230px) {
+        width: 1078px;
+        margin: 1em auto 0;
+    }
+    a{
+        padding: 0.125em;
+        &:hover{
+            background-color: $color-light-green;
+        }
+    }
+}
+main{
+    padding: 0 10px 1em;
+    @media only screen and (min-width: 768px) {
+        padding: 0 50px 1em;
+    }
+    @media only screen and (min-width: 1230px) {
+        width: 1100px;
+        margin: 0 auto;
+    }
+}
+.element{
+    margin: 0 0 1em;
+    dl{
+        background-color: $color-light-gray;
+        padding: 0.5em 16px;
+        margin: 0 0 1em;
+    }
+    dt{
+        border-bottom: 1px solid darken($color-dark-gray, 5%);
+        padding-bottom: 0.25em;
+    }
+    dd{
+        font-size: 0.875em;
+    }
+}
+ul.element{
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid $color-dark-gray;
+    li{
+        border: 1px solid $color-dark-gray;
+        border-bottom: none;
+        &:nth-child(2n){
+            background-color: $color-light-gray;
+        }
+        &:hover{
+            background-color: $color-light-green;
+        }
+    a{
+            display: block;
+            padding: 0.375em 9px;
+            color: $color-black;
+            font-size: 1.125em;
+            &:hover{
+                background-color: $color-light-green;
+            }
+        }
+    }
+}
+section.element{
+    &>h3, &>h4{
+        background-color: $color-light-green;
+        padding: 0.375em 9px;
+        font-size: 1.125em;
+        margin: 0;
+        border: 1px solid $color-light-green;
+        &>a{
+            color: #000;
+            &:hover{
+                color:darken($color-green, 25%);
+            }
+        }
+        &>strong, &>b{
+            display: inline;
+            font-weight: normal;
+            font-size: 0.875em;
+            margin-left: 0.5em;
+            color: $color-light-gray;
+            padding: 0.125em 0.5em;
+        }
+    }
+    table{
+        font-size: 1em;
+        th{
+            .type div{
+                display: block;
+                width: 5em;
+            }
+            .line div{
+                display: block;
+                width: 4em;
+            }
+            .description{
+                width: 100%;
+            }
+        }
+    }
+    .details{
+        border: 1px solid #e7e7e7;
+        padding: 0 9px;
+    }
+}
+.summary{
+    font-size: 1.125em;
+}
+.long-description{
+    font-size: 1em;
+    padding: 0 10px;
+    margin-bottom: 1em;
+    border: 1px solid $color-dark-gray;
+    border-left: 10px solid $color-dark-gray;
+    p{
+        padding: 0.5em 0;
+    }
+    ul{
+        margin: 0 0 0 1em;
+        padding: 0 0 0.5em;
+    }
+}
+.short-description{
+    font-size: 1.125em;
+    background-color:$color-light-gray;
+    margin: 0 0 1em;
+    padding: 0.5em 10px;
+}
+
+.handler-class, .handler-method, .handler-function, .handler-constant, .handler-property{
+    background-repeat: no-repeat;
+    background-size: auto 8px;
+    background-position: right 10px center;
+    cursor: pointer;
+}
+.handler-class.close, .handler-method.close, .handler-function.close, .handler-constant.close, .handler-property.close{
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIxMCI+PHBhdGggZmlsbD0icmdiKDE0MSwgMjExLCA5NSkiIGQ9Ik0xMCAxMCAwIDBIMjB6Ii8+PC9zdmc+Cg==);
+}
+.handler-class.open, .handler-method.open, .handler-function.open, .handler-constant.open, .handler-property.open{
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyMCIgaGVpZ2h0PSIxMCI+PHBhdGggZmlsbD0icmdiKDE0MSwgMjExLCA5NSkiIGQ9Ik0xMCAwIDAgMTBIMjB6Ii8+PC9zdmc+Cg==);
+}
+.more{
+    display: none;
+}
+.table-wrapper{
+    margin: 0 0 0.5em;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    tr:nth-child(2n){
+        background-color: #f9f9f9;
+    }
+    th, td{
+        text-align: left;
+        vertical-align: top;
+        border: 1px solid #e7e7e7;
+        div{
+            padding: 0.375em 9px;
+            margin: 0;
+        }
+    }
+    td{
+        &.number{
+            text-align: right;
+        }
+        p{
+            padding: 0.375em 9px;
+            margin: 0;
+        }
+    }
+}
+.metadata{
+    th{
+        .th{
+            width: 6em;
+        }
+    }
+    td{
+        width: 100%;
+    }
+} 
+.source{
+    border: 1px solid $color-dark-gray;
+    padding: 0 9px;
+    overflow-x:auto;
+    margin-top: 1em;
+}
+strong.deprecated, strong.marker, strong.error{
+    background-color:$color-red;
+}
+b.visibility{
+    background-color:$color-blue;
+}
+.details{
+    pre{
+        background-color: $color-light-gray;
+        padding: 0.5em 10px;
+        margin: 0 0 0.5em;
+    }
+    .labels{
+        list-style: none;
+        margin: 0 0 0.25em;
+        padding: 0;
+        li{
+            font-size: 0.875em;
+            padding: 0.25em .5em;
+            background-color:$color-green;
+            color: $color-white;
+            display: inline;
+            margin-left: 0;
+        }
+    }
+}
