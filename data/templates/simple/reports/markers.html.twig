@@ -1,1 +1,50 @@
 {% extends 'layout.html.twig' %}
+
+{% block title %}Markers | {{ project.name }}{% endblock %}
+
+{% block content %}
+    <main class="markers">
+        <h2>Markers</h2>
+        {% set markerCount = 0 %}
+        {% for file in project.files %}
+            {% set markerCount = markerCount + file.markers|length %}
+        {% endfor %}
+        {% if markerCount <= 0 %}
+        <p class="message">No markers have been found in this project.</p>
+        {% else %}
+        <ul class="element">
+            {% for file in project.files %}
+                {% if file.markers|length > 0 %}
+                <li><a href="#{{ file.path }}">{{ file.path }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+            {% for file in project.files %}
+                {% if file.markers|length > 0 %}
+                    <section class="element">
+                        <h3 id="{{ file.path }}">
+                            {{ file.path }}
+                            <strong class="marker">markers: {{ file.markers|length }}</strong>
+                        </h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <tr>
+                                    <th class="type"><div>Type</div></th>
+                                    <th class="line"><div>Line</div></th>
+                                    <th class="description"><div>Description</div></th>
+                                </tr>
+                            {% for marker in file.markers %}
+                                <tr class="{{ marker.type }}">
+                                    <td><p>{{ marker.type }}</p></td>
+                                    <td class="number"><p><a href="{{link(file)}}#L-{{ marker.line }}">{{ marker.line }}</a></p></td>
+                                    <td><p>{{ marker.message }}</p></td>
+                                </tr>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </section>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </main>
+{% endblock %}

@@ -1,7 +1,5 @@
 /vendor/
-/examples/TestsData/
-/examples/MariosPizzeria/docs/
-/examples/MariosPizzeria/tmp/
+/examples/
 /var/
 .phpunit.result.cache
 .phpdoc
