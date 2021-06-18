@@ -392,13 +392,13 @@ b.visibility{
     color: $color-gray;
 }
 th{
-    &.type>div{
+    &.type>div, &.element>div{
         width: 5em;
     }
     &.line>div{
         width: 5em;
     }
-    &.description{
+    &.description, &.reason{
         width: 100%;
     }
 }
