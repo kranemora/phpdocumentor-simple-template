@@ -383,3 +383,22 @@ b.visibility{
         }
     }
 }
+.message{
+    font-size: 1.125em;
+    margin: 0;
+    padding: 0.25em 0;
+    border-top: 1px solid $color-dark-gray;
+    border-bottom: 1px solid $color-dark-gray;
+    color: $color-gray;
+}
+th{
+    &.type>div{
+        width: 5em;
+    }
+    &.line>div{
+        width: 5em;
+    }
+    &.description{
+        width: 100%;
+    }
+}
