@@ -1,9 +1,11 @@
-    <div class="more target-constant">
     {% if element.description %}
         <div class="long-description">{{ element.description|markdown|raw }}</div>
     {% endif %}
         <ul class="labels">
             <li>{{ element.visibility }}</li>
+            {% if (node.parent is not null and element.parent.fullyQualifiedStructuralElementName != node.fullyQualifiedStructuralElementName) %}
+            <li>inherited</li>
+            {% endif %}
         </ul>
         <pre><code>{{ element.name }} : {{ not element.type ? "mixed" : element.type|route('class:short')|join('|')|raw }} = {{ element.value }}</code></pre>
         <div class="table-wrapper">
@@ -31,4 +33,3 @@
                 </tr>
             </table>
         </div>
-    </div>

@@ -18,6 +18,8 @@
     <transformation query="indexes.namespaces" writer="twig" source="templates/simple/namespace.html.twig" />
     <transformation query="indexes.packages" writer="twig" source="templates/simple/package.html.twig" />
     <transformation query="indexes.classes" writer="twig" source="templates/simple/class.html.twig" />
+    <transformation query="indexes.interfaces" writer="twig" source="templates/simple/class.html.twig" />
+    <transformation query="indexes.traits" writer="twig" source="templates/simple/class.html.twig" />
     <transformation query="files" writer="twig" source="templates/simple/file.html.twig" />
   </transformations>
 </template>

@@ -1,0 +1,44 @@
+    {% if element.description %}
+        <div class="long-description">{{ element.description|markdown|raw }}</div>
+    {% endif %}
+        <ul class="labels">
+            <li>{{ element.visibility }}</li>
+            {% if element.static %}
+            <li>static</li>
+            {% endif %}
+            {% if (element.parent.fullyQualifiedStructuralElementName != node.fullyQualifiedStructuralElementName) %}
+            <li>inherited</li>
+            {% endif %}
+        </ul>
+        <pre><code>{{ not element.type ? "mixed" : element.type|route('class:short')|join('|')|raw }} ${{ element.name }} {% if element.default is not null %} = {{ node.default is not null ? node.default : '""' }}{% endif %}</code></pre>
+        <div class="table-wrapper">
+            <table class="metadata">
+            {% for tagList in element.tags if tagList.0.name not in ['subpackage'] %}
+                <tr>
+                    <th><div class="th">{{ tagList.0.name }}</div></th>
+                    <td>
+                    {% for tag in tagList %}
+                        {% if tag.version or tag.reference or (tag.name == "var" and element.types|length > 0) or tag.description %}
+                            {% if (tag.name == "since" or "deprecated" and tag.version) %}
+                                <p>{{ tag.version }}</p>
+                            {% elseif (tag.name == "see" and tag.reference) %}
+                                <p>{{ tag.reference|route|raw }}</p>
+                            {% elseif tag.name == "var" %}
+                                <p>{{ element.types|route|join('|')|raw }}</p>
+                            {% endif %}
+                            {% if tag.description %}
+                                {{ tag.description|markdown|raw }}
+                            {% endif %}
+                        {% else %}
+                            <p>No description</p>
+                        {% endif %}
+                    {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+                <tr>
+                    <th><div class="th">source</div></th>
+                    <td><p><a href="{{link(element.file)}}#L-{{element.line}}">{{element.file.path}}</a></p></td>
+                </tr>
+            </table>
+        </div>

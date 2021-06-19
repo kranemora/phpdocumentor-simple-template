@@ -1,9 +1,11 @@
-    <div class="more target-function">
     {% if element.description %}
         <div class="long-description">{{ element.description|markdown|raw }}</div>
     {% endif %}
         <ul class="labels">
             <li>public</li>
+            {% if (element.parent.fullyQualifiedStructuralElementName != node.fullyQualifiedStructuralElementName) %}
+            <li>inherited</li>
+            {% endif %}
         </ul>
         {% set signature = '' %}
         {% if element.abstract %}{% set signature = signature~' abstract' %}{% endif %}
@@ -85,5 +87,5 @@
             {% endfor %}
             </dl>
         </section>
-    </div>
     {% endif -%}
+    </div>

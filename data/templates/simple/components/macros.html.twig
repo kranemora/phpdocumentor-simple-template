@@ -40,18 +40,20 @@
     {% endfor %}
 {% endmacro %}
 
-{% macro elementSummary(element) %}
+{% macro elementSummary(element, node) %}
     {% set type = descriptor(element) %}
     <section class="element" id="{{ type }}_{{ element.name }}">
-        {% if type == 'constant' or type == 'function' %}
+        {% if type == 'constant' or type == 'function' or type == 'property' or type == 'method' %}
         <h3 class="handler-{{type}}">{{ element.name }} {% if element.deprecated %} <strong class="deprecated">deprecated</strong>{% endif %}</h3>
         {% else %}
         <h3><a href="{{ link(element) }}">{{ element.name }}</a>{% if element.deprecated %} <strong class="deprecated">deprecated</strong>{% endif %}</h3>
         {% endif %}
         <div class="details">
             <p class="summary">{% if element.summary %}{{ element.summary }}{% else %}<span>No description</span>{% endif %}</p>
-            {% if type == 'constant' or type == 'function' %}
-            {% include 'components/'~type~'.html.twig' with {'element': element} %}
+            {% if type == 'constant' or type == 'function' or type == 'property' or type == 'method' %}
+            <div class="more target-{{type}}">
+                {% include 'components/'~type~'.html.twig' with {'element': element, 'node': node} %}
+            </div>
             {% endif %}
         </div>
     </section>

@@ -1,1 +1,122 @@
 {% extends 'layout.html.twig' %}
+{% import 'components/macros.html.twig' as macros %}
+
+{% block title %}{{ node.FullyQualifiedStructuralElementName }} | {{ project.name }}{% endblock %}
+
+{% block content %}
+    {% import _self as self %}
+    <main class="classes">
+        <h2>{{node.name}}</h2>
+        {% if node.summary %}
+        <p class="shortdescription">{{ node.summary }}</p>
+        {% else %}
+        <p class="shortdescription">No description.</p>
+        {% endif %}
+        {% if node.description is not empty %}
+        <div class="long-description">
+            {{ node.description|markdown|raw }}
+        </div>
+        {% endif %}
+        <div class="table-wrapper">
+            <table class="metadata">
+                <tr>
+                    <th><div class="th">package</div></th>
+                    <td>
+                        <p><a href="{{link(node.package)}}">{{ node.package.fullyQualifiedStructuralElementName }}</a></p>
+                    </td>
+                </tr>
+                <tr>
+                    <th><div class="th">namespace</div></th>
+                    <td>
+                        <p><a href="{{link(node.namespace)}}">{{ node.namespace.fullyQualifiedStructuralElementName }}</a></p>
+                    </td>
+                </tr>
+            {% if node.parent %}
+                <tr>
+                    <th><div class="th">extends</div></th>
+                    <td><div>{{ node.parent|route|join(', ')|raw }}</div></td>
+                </tr>
+            {% endif %}
+            {% if node.interfaces|length %}
+                <tr>
+                    <th><div class="th">implements</div></th>
+                    <td>
+                        <ul>
+                        {% for interface in node.interfaces %}
+                            <li>
+                            {% if interface.fullyQualifiedStructuralElementName %}<a href="{{ interface|route('url') }}">{% endif %}
+                            {{ interface.fullyQualifiedStructuralElementName ?: interface }}
+                            {% if interface.fullyQualifiedStructuralElementName %}</a>{% endif %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endif %}
+            {% if node.usedTraits|length %}
+                <tr>
+                    <th><div class="th">traits</div></th>
+                    <td>
+                        <ul>
+                        {% for trait in node.usedTraits %}
+                            <li>
+                            {% if trait.fullyQualifiedStructuralElementName %}<a href="{{ trait|route('url') }}">{% endif %}
+                            {{ trait.fullyQualifiedStructuralElementName ?: trait }}
+                            {% if trait.fullyQualifiedStructuralElementName %}</a>{% endif %}
+                            </li>
+                        {% endfor %}
+                        </ul>
+                    </td>
+                </tr>
+            {% endif %}
+        {% for tagList in node.tags %}
+            {% for tag in tagList if tag.name not in ['method', 'property', 'package', 'subpackage'] %}
+                <tr>
+                    <th><div class="th">{{ tag.name }}
+                {% if tag.type %}
+                        {{ tag.type|route|join('|')|raw }}
+                {% endif %}</div>
+                    </th>
+                    <td>
+                {% if (tag.name == "since" or "deprecated") %}
+                    {{ tag.version }}
+                {% endif %}
+                {{ tag.description|markdown|raw }}
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+            <tr>
+                <th><div class="th">source</div></th>
+                <td><p><a href="{{link(node.file)}}#L-{{node.line}}">{{node.file.path}}</a></p></td>
+            </tr>
+            </table>
+        </div>
+        {% if node.constants.merge(node.inheritedConstants)|length > 0 %}
+        <section>
+            <h3>Constants</h3>
+            {% for constant in node.constants.merge(node.inheritedConstants)|sort_asc %}
+            {{ macros.elementSummary(constant, node) }}
+            {% endfor %}
+        </section>
+        {% endif %}
+        {% set specialProperties = node.magicProperties ? node.inheritedProperties.merge(node.magicProperties) : node.inheritedProperties %}
+        {% if node.properties.merge(specialProperties)|length > 0 %}
+        <section>
+            <h3>Properties</h3>
+            {% for property in node.properties.merge(specialProperties)|sort_asc %}
+            {{ macros.elementSummary(property, node) }}
+            {% endfor %}
+        </section>
+        {% endif %}
+        {% set specialMethods = node.magicMethods ? node.inheritedMethods.merge(node.magicMethods) : node.inheritedMethods -%}
+        {% if node.methods.merge(specialMethods)|length > 0 %}
+        <section>
+            <h3>Methods</h3>
+            {% for method in node.methods.merge(specialMethods)|sort_asc %}
+            {{ macros.elementSummary(method, node) }}
+            {% endfor %}
+        </section>
+        {% endif %}
+    </main>
+{% endblock %}

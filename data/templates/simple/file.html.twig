@@ -6,7 +6,7 @@
     <main class="namespaces">
         <h2>{{node.name}}</h2>
         <p class="short-description">{% if node.summary %}{{ node.summary }}{% else %}No description.{% endif %}</p>
-        {% if node.description %}
+        {% if node.description is not empty %}
         <div class="long-description">
             {{ node.description|markdown|raw }}
         </div>

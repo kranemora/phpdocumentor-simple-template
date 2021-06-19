@@ -14,7 +14,7 @@
         <article>
             <h2>Constants</h2>
             {% for constant in node.constants|sort_asc %}
-                {{ macros.elementSummary(constant) }}
+                {{ macros.elementSummary(constant, node) }}
             {% endfor %}
         </article>
     {% endif %}
@@ -22,7 +22,7 @@
         <article>
             <h2>Functions</h2>
             {% for function in node.functions|sort_asc %}
-                {{ macros.elementSummary(function) }}
+                {{ macros.elementSummary(function, node) }}
             {% endfor %}
         </article>
     {% endif %}
@@ -30,7 +30,7 @@
         <article>
             <h2>Classes</h2>
             {% for class in node.classes|sort_asc %}
-                {{ macros.elementSummary(class) }}
+                {{ macros.elementSummary(class, node) }}
             {% endfor %}
         </article>
     {% endif %}
@@ -38,7 +38,7 @@
         <article>
             <h2>Interfaces</h2>
             {% for interface in node.interfaces|sort_asc %}
-                {{ macros.elementSummary(interface) }}
+                {{ macros.elementSummary(interface, node) }}
             {% endfor %}
         </article>
     {% endif %}
@@ -46,7 +46,7 @@
         <article>
             <h2>Traits</h2>
             {% for trait in node.traits|sort_asc %}
-                {{ macros.elementSummary(trait) }}
+                {{ macros.elementSummary(trait, node) }}
             {% endfor %}
         </article>
     {% endif %}
