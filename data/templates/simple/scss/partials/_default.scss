@@ -290,6 +290,11 @@ section.element{
         margin: 0 0 0 1em;
         padding: 0 0 0.5em;
     }
+    blockquote{
+        background-color: $color-light-gray;
+        margin: 0;
+        padding: .5em 16px;;
+    }
 }
 .short-description{
     font-size: 1.125em;
@@ -349,6 +354,14 @@ table{
     }
     td{
         width: 100%;
+        ul{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            li{
+                padding: .375em 9px;
+            }
+        }
     }
 } 
 .source{
