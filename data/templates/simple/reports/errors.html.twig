@@ -1,1 +1,50 @@
 {% extends 'layout.html.twig' %}
+
+{% block title %}Compilation errors | {{ project.name }}{% endblock %}
+
+{% block content %}
+    <main class="errors">
+        <h2>Compilation errors</h2>
+        {% set errorCount = 0 %}
+        {% for file in project.files %}
+            {% set errorCount = errorCount + file.allerrors|length %}
+        {% endfor %}
+        {% if errorCount <= 0 %}
+        <p class="message">No errors have been found in this project.</p>
+        {% else %}
+        <ul class="element">
+            {% for file in project.files %}
+                {% if file.allerrors|length > 0 %}
+                <li><a href="#{{ file.path }}">{{ file.path }}</a></li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+            {% for file in project.files %}
+                {% if file.allerrors|length > 0 %}
+                    <section class="element">
+                        <h3 id="{{ file.path }}">
+                            {{ file.path }}
+                            <strong class="error">errors: {{ file.allerrors|length }}</strong>
+                        </h3>
+                        <div class="table-wrapper">
+                            <table>
+                                <tr>
+                                    <th class="type"><div>Type</div></th>
+                                    <th class="line"><div>Line</div></th>
+                                    <th class="description"><div>Description</div></th>
+                                </tr>
+                            {% for error in file.allerrors %}
+                                <tr class="{{ error.type }}">
+                                    <td><p>{{ error.type }}</p></td>
+                                    <td class="number"><p><a href="{{link(file)}}#L-{{ error.line }}">{{ error.line }}</a></p></td>
+                                    <td><p>{{ error.code|trans(error.context) }}</p></td>
+                                </tr>
+                            {% endfor %}
+                            </table>
+                        </div>
+                    </section>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+    </main>
+{% endblock %}
