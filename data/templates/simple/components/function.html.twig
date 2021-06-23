@@ -1,64 +1,112 @@
-    {% if element.description %}
-        <div class="long-description">{{ element.description|markdown|raw }}</div>
+    {% if element.description is not empty %}
+<div class="long-description">{{ element.description|markdown|raw }}</div>
     {% endif %}
-        <ul class="labels">
-            <li>public</li>
-            {% if (element.parent.fullyQualifiedStructuralElementName != node.fullyQualifiedStructuralElementName) %}
-            <li>inherited</li>
+<ul class="labels">
+        {% if element.visibility %}
+    <li>{{ element.visibility }}</li>
+        {% else %}
+    <li>public</li>
+        {% endif %}
+        {% if element.abstract %}
+    <li>abstract</li>
+        {% endif %}
+        {% if element.static %}
+    <li>static</li>
+        {% endif %}
+        {% if element.final %}
+    <li>final</li>
+        {% endif %}
+</ul>
+    {% set signature = element.name~'(' %}
+    {% for argument in element.arguments %}
+        {% if argument.default %}{% set signature = signature~'[' %}{% endif %}
+        {% if not loop.first %}{% set signature = signature~', ' %}{% endif %}
+        {% set signature = signature~argument.type|route('')|join('|')~' ' %}
+        {% if argument.isVariadic %}{% set signature = signature~'...' %}{% endif %}
+        {% if argument.byReference %}{% set signature = signature~'&' %}{% endif %}
+        {% set signature = signature~'$'~argument.name %}
+        {% if argument.default %}
+            {% set signature = signature~' = ' %}
+            {% set signature = signature~argument.default %}
+            {% set signature = signature~']' %}
+        {% endif %}
+    {% endfor %}
+    {% set signature = signature~') : ' %}
+    {% set signature = signature~element.response.type|route('')|join('|') %}
+<pre><code>{{ signature|raw }}</code></pre>
+<div class="table-wrapper">
+    <table class="metadata">
+            {% if (element.parent is not null and element.parent.fullyQualifiedStructuralElementName != node.fullyQualifiedStructuralElementName) %}
+        <tr>
+            <th><div class="th">inherited</div></th>
+            <td><p><a href="{{ element.parent|route('url') }}">{{ element.parent.fullyQualifiedStructuralElementName }}</a></p></td>
+        </tr>
             {% endif %}
-        </ul>
-        {% set signature = '' %}
-        {% if element.abstract %}{% set signature = signature~' abstract' %}{% endif %}
-        {% if element.final %}{% set signature = signature~' final' %}{% endif %}
-        {% if element.static %}{% set signature = signature~' static' %}{% endif %}
-        {% set signature = signature~' '~element.name~'(' %}
-        {% for argument in element.arguments %}
-            {% if argument.default %}{% set signature = signature~'[' %}{% endif %}
-            {% if not loop.first %}{% set signature = signature~', ' %}{% endif %}
-            {% set signature = signature~argument.type|route('class:short')|join('|')~' ' %}
-            {% if argument.isVariadic %}{% set signature = signature~'...' %}{% endif %}
-            {% if argument.byReference %}{% set signature = signature~'&' %}{% endif %}
-            {% set signature = signature~'$'~argument.name %}
-            {% if argument.default %}
-                {% set signature = signature~' = ' %}
-                {% set signature = signature~argument.default %}
-                {% set signature = signature~']' %}
+            {% if element.deprecated is not empty %}
+        <tr>
+            <th><div class="th">deprecated</th></th>
+            <td><p>{% if element.tags.deprecated[0].description is not empty %}{{ element.tags.deprecated[0].description }}{% else %}No info{% endif %}</p></td>
+        </tr>
             {% endif %}
-        {% endfor %}
-        {% set signature = signature~') : ' %}
-        {% set signature = signature~element.response.type|route('class:short')|join('|') %}
-        <pre><code>{{ signature|trim(side='left')|raw }}</code></pre>
-        <div class="table-wrapper">
-            <table class="metadata">
-            {% for tagList in element.tags if tagList.0.name and tagList.0.name not in ['param', 'return', 'api', 'throws', 'throw', 'package'] %}
-                <tr>
-                    <th><div class="th">{{ tagList.0.name }}</div></th>
-                    <td>
-                    {% for tag in tagList %}
-                        {% if (tag.name == "since" or "deprecated" and tag.version) %}
-                            <p>{{ tag.version }}</p>
-                        {% elseif (tag.name == "see" and tag.reference) %}
-                            <p>{{ tag.reference|route|raw }}</p>
-                        {% endif %}
-                        {% if tag.description %}
-                            {{ tag.description|markdown|raw }}
-                        {% endif %}
-                    {% endfor %}
-                    </td>
-                </tr>
+            {% for tagName,tags in element.tags if tagName in ['uses'] %}
+                {% if loop.first %}
+        <tr>
+            <th><div class="th">uses</div></th>
+            <td>
+                <ul>
+                {% endif %}
+                {% for tag in tags %}
+                    <li><a href="{{ tag.reference|route('url') }}">{{ tag.description ?: tag.reference }}</a></li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
             {% endfor %}
-                <tr>
-                    <th><div class="th">source</div></th>
-                    <td><p><a href="{{link(element.file)}}#L-{{element.line}}">{{element.file.path}}</a></p></td>
-                </tr>
-            </table>
-        </div>
+            {% for tagName,tags in element.tags if tagName in ['link', 'see'] %}
+                {% if loop.first %}
+        <tr>
+            <th><div class="th">{{ tagName }}</div></th>
+            <td>
+                <ul>
+                {% endif %}
+                {% for tag in tags %}
+                    <li><a href="{{ tag.link }}">{% if tag.description is not empty %} {{ tag.description }} {% else %} {{ tag.link }} {%  endif %}</a></li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+            {% endfor %}
+            {% for tagName, tagList in element.tags if tagName not in ['inheritDoc', 'package', 'subpackage', 'link', 'see', 'abstract', 'example', 'param', 'return', 'access', 'deprecated', 'throws', 'throw', 'uses'] %}
+        <tr>
+            <th><div class="th">{{ tagName }}</div></th>
+            <td>
+                <ul>
+                    {% for tag in tagList %}
+                        {% set description = ''%}
+                        {% if tag.version is not empty %}
+                            {% set description = 'v'~tag.version %}
+                        {% endif %}
+                        {% if tag.description is not empty %}
+                            {% set description = description~' '~tag.description %}
+                        {% endif %}
+                        <li>{{ description|trim(side='left')|markdown|raw ?: 'No Info' }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+            {% endfor %}
+        <tr>
+            <th><div class="th">source</div></th>
+            <td><p><a href="{{link(element.file)}}#L-{{element.line}}">{{element.file.path}}</a></p></td>
+        </tr>
+    </table>
+</div>
         {% if element.arguments|length > 0 %}
         <section>
             <h5>Parameters</h5>
             <dl>
             {% for argument in element.arguments -%}
-                <dt><code>{{ argument.name }} : {{ argument.type|route('class:short')|join('|')|raw }}{% if argument.default %} = {{ argument.default }}{% endif %}</code></dt>
+                <dt><code>{{ argument.name }} : {{ argument.type|route('')|join('|')|raw }}{% if argument.default %} = {{ argument.default }}{% endif %}</code></dt>
                 <dd>{% if argument.description|description %}{{ argument.description|description|markdown }}{% else %}<p>No description.</p>{% endif %}</dd>
             {% endfor -%}
             </dl>
@@ -68,24 +116,22 @@
         <section>
             <h5>Return values</h5>
             <dl>
-                <dt><code>{{ element.response.type|route('class:short')|join('|')|raw }}</code></dt>
+                <dt><code>{{ element.response.type|route('')|join('|')|raw }}</code></dt>
                 <dd>{% if element.response.description|description %}{{ element.response.description|description|markdown }}{% else %}<p>No description.</p>{% endif %}</dd>
             </dl>
         </section>
         {% endif %}
-        {% if element.tags.throws|length > 0 or element.tags.throw|length > 0 %}
+        {% for tagName,tags in element.tags if tagName in ['throws'] %}
+            {% if loop.first %}
         <section>
             <h5>Throws</h5>
             <dl>
+            {% endif %}
             {% for exception in element.tags.throws %}
-                <dt><code>{{ exception.types|route|join('|')|raw }}</code></dt>
-                <dd>{% if exception.description %}{{ exception.description|markdown|raw }}{% else %}<p>No description.</p>{% endif %}</dd>
-            {% endfor %}
-            {% for exception in element.tags.throw %}
                 <dt><code>{{ exception.types|route|join('|')|raw }}</code></dt>
                 <dd>{% if exception.description %}{{ exception.description|markdown|raw }}{% else %}<p>No description.</p>{% endif %}</dd>
             {% endfor %}
             </dl>
         </section>
-    {% endif -%}
+        {% endfor %}
     </div>

@@ -6,7 +6,7 @@
 {% block content %}
     {% import _self as self %}
     <main class="classes">
-        <h2>{{node.name}}</h2>
+        <h2>{{node.name}}{% if node.deprecated %} <strong class="deprecated">deprecated</strong>{% endif %}</h2>
         {% if node.summary %}
         <p class="shortdescription">{{ node.summary }}</p>
         {% else %}
@@ -17,6 +17,22 @@
             {{ node.description|markdown|raw }}
         </div>
         {% endif %}
+        <ul class="labels">
+                {% if node.visibility is not empty %}
+            <li>{{ node.visibility }}</li>
+                {% else %}
+            <li>public</li>
+                {% endif %}
+                {% if node.abstract %}
+            <li>abstract</li>
+                {% endif %}
+                {% if node.static %}
+            <li>static</li>
+                {% endif %}
+                {% if node.final %}
+            <li>final</li>
+                {% endif %}
+        </ul>
         <div class="table-wrapper">
             <table class="metadata">
                 <tr>
@@ -31,10 +47,16 @@
                         <p><a href="{{link(node.namespace)}}">{{ node.namespace.fullyQualifiedStructuralElementName }}</a></p>
                     </td>
                 </tr>
-            {% if node.parent %}
+            {% if node.deprecated is not empty %}
+                <tr>
+                    <th><div class="th">deprecated</th></th>
+                    <td><p>{% if node.tags.deprecated[0].description is not empty %}{{ node.tags.deprecated[0].description }}{% else %}No info{% endif %}</p></td>
+                </tr>
+            {% endif %}
+            {% if node.parent is not empty %}
                 <tr>
                     <th><div class="th">extends</div></th>
-                    <td><div>{{ node.parent|route|join(', ')|raw }}</div></td>
+                    <td><div>{{ node.parent|route('')|join(', ')|raw }}</div></td>
                 </tr>
             {% endif %}
             {% if node.interfaces|length %}
@@ -69,27 +91,57 @@
                     </td>
                 </tr>
             {% endif %}
-        {% for tagList in node.tags %}
-            {% for tag in tagList if tag.name not in ['method', 'property', 'package', 'subpackage'] %}
-                <tr>
-                    <th><div class="th">{{ tag.name }}
-                {% if tag.type %}
-                        {{ tag.type|route|join('|')|raw }}
-                {% endif %}</div>
-                    </th>
-                    <td>
-                {% if (tag.name == "since" or "deprecated") %}
-                    {{ tag.version }}
+            {% for tagName,tags in node.tags if tagName in ['uses'] %}
+                {% if loop.first %}
+        <tr>
+            <th><div class="th">uses</div></th>
+            <td>
+                <ul>
                 {% endif %}
-                {{ tag.description|markdown|raw }}
-                    </td>
-                </tr>
+                {% for tag in tags %}
+                    <li><a href="{{ tag.reference|route('url') }}">{{ tag.description ?: tag.reference }}</a></li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
             {% endfor %}
-        {% endfor %}
-            <tr>
-                <th><div class="th">source</div></th>
-                <td><p><a href="{{link(node.file)}}#L-{{node.line}}">{{node.file.path}}</a></p></td>
-            </tr>
+            {% for tagName,tags in node.tags if tagName in ['link', 'see'] %}
+                {% if loop.first %}
+        <tr>
+            <th><div class="th">{{ tagName }}</div></th>
+            <td>
+                <ul>
+                {% endif %}
+                {% for tag in tags %}
+                    <li><a href="{{ tag.link }}">{% if tag.description is not empty %} {{ tag.description }} {% else %} {{ tag.link }} {%  endif %}</a></li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+            {% endfor %}
+            {% for tagName,tags in node.tags if tagName not in ['inheritDoc', 'link', 'see', 'uses', 'abstract', 'example', 'method', 'deprecated', 'property', 'property-read', 'property-write', 'package', 'subpackage'] %}
+        <tr>
+            <th><div class="th">{{ tagName }}</div></th>
+            <td>
+                <ul>
+                    {% for tag in tagList %}
+                        {% set description = ''%}
+                        {% if tag.version is not empty %}
+                            {% set description = 'v'~tag.version %}
+                        {% endif %}
+                        {% if tag.description is not empty %}
+                            {% set description = description~' '~tag.description %}
+                        {% endif %}
+                        <li>{{ description|trim(side='left')|markdown|raw }}</li>
+                    {% endfor %}
+                </ul>
+            </td>
+        </tr>
+            {% endfor %}
+        <tr>
+            <th><div class="th">source</div></th>
+            <td><p><a href="{{link(node.file)}}#L-{{node.line}}">{{node.file.path}}</a></p></td>
+        </tr>
             </table>
         </div>
         {% if node.constants.merge(node.inheritedConstants)|length > 0 %}
@@ -120,3 +172,7 @@
         {% endif %}
     </main>
 {% endblock %}
+
+{% block js %}
+    $('pre code').overflow();
+{% endblock js %}

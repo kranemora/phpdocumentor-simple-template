@@ -35,7 +35,7 @@
                             {% for tag in element.tags.deprecated %}
                                 <tr>
                                     <td class="number"><p><a href="{{link(element.file)}}#L-{{ element.line }}">{{ element.line }}</a></p></td>
-                                    <td><p>{{ element }}</p></td>
+                                    <td><p><a href="{{ link(element) }}">{{ element }}</a></p></td>
                                     <td><p>{{ tag.description }}</p></td>
                                 </tr>
                             {% endfor %}

@@ -21,14 +21,16 @@
         {
             e.preventDefault();
             $(e.currentTarget).attr('data-dragging', false);
-            canvas = $(e.currentTarget).innerWidth();
-            inner = $(e.currentTarget).parent()[0].scrollWidth;
-            offset = canvas - inner - parseInt($(e.currentTarget).css('padding-right'));
+            inner = $(e.currentTarget).innerWidth();
+            canvas = $(e.currentTarget).parent()[0].scrollWidth;
+            offset = inner - canvas - parseInt($(e.currentTarget).css('padding-right'));
+            enable = inner - (canvas - parseInt($($(e.currentTarget).parent()[0]).css('padding-right')) - parseInt($($(e.currentTarget).parent()[0]).css('padding-left'))) < 0;
+            console.log(enable)
             if (offset < 0) {
                 pageX = e.pageX;
             }
             idInterval = setInterval(function() {
-                if (velocity != 0) {
+                if (velocity != 0 && enable) {
                     delta = parseInt($(e.currentTarget).css('left'))+velocity;
                     if (delta > 0) {
                         delta = 0;
