@@ -17,24 +17,38 @@
                     <th><div class="th">package</div></th>
                     <td><p><a href="{{link(node.package)}}">{{ node.package.fullyQualifiedStructuralElementName }}</a></p></td>
                 </tr>
-            {% for tagList in node.tags if tagList.0.name and tagList.0.name not in ['package', 'subpackage'] %}
-                <tr>
-                    <th><div class="th">{{ tagList.0.name }}</div></th>
-                    <td>
+            {% for tagName,tags in node.tags if tagName in ['link', 'see'] %}
+                {% if loop.first %}
+        <tr>
+            <th><div class="th">{{ tagName }}</div></th>
+            <td>
+                <ul>
+                {% endif %}
+                {% for tag in tags %}
+                    <li><a href="{{ tag.link }}">{% if tag.description is not empty %} {{ tag.description }} {% else %} {{ tag.link }} {%  endif %}</a></li>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+            {% endfor %}
+            {% for tagName,tagList in node.tags if tagName not in ['inheritDoc', 'link', 'see', 'uses', 'abstract', 'example', 'method', 'deprecated', 'property', 'property-read', 'property-write', 'package', 'subpackage'] %}
+        <tr>
+            <th><div class="th">{{ tagName }}</div></th>
+            <td>
+                <ul>
                     {% for tag in tagList %}
-                        {% if (tag.name == "since" or "deprecated" and tag.version) %}
-                            <p>{{ tag.version }}</p>
-                        {% elseif (tag.name == "see" and tag.reference) %}
-                            <p>{{ tag.reference|route|raw }}</p>
-                        {% elseif (tag.name == 'link') %}
-                            <p>{{ tag.link|route|raw }}</p>
+                        {% set description = ''%}
+                        {% if tag.version is not empty %}
+                            {% set description = 'v'~tag.version %}
                         {% endif %}
-                        {% if tag.description %}
-                            {{ tag.description|markdown|raw }}
+                        {% if tag.description is not empty %}
+                            {% set description = description~' '~tag.description %}
                         {% endif %}
+                        <li>{{ description|trim(side='left')|markdown|raw ?: 'No Info' }}</li>
                     {% endfor %}
-                    </td>
-                </tr>
+                </ul>
+            </td>
+        </tr>
             {% endfor %}
             </table>
         </div>

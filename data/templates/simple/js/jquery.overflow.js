@@ -9,35 +9,36 @@
         var velocity = 0;
         var idInterval;
         var delta;
+        var current;
 
         var clickHandler = function(e) {
-            if ($(e.currentTarget).attr('data-dragging') == 'true') {
+            if ($(current).attr('data-dragging') == 'true') {
                 e.preventDefault();
             }
-            $(e.currentTarget).attr('data-dragging', false);
+            $(current).attr('data-dragging', false);
         }
 
         var mouseDownHandler = function(e)
         {
             e.preventDefault();
-            $(e.currentTarget).attr('data-dragging', false);
-            inner = $(e.currentTarget).innerWidth();
-            canvas = $(e.currentTarget).parent()[0].scrollWidth;
-            offset = inner - canvas - parseInt($(e.currentTarget).css('padding-right'));
-            enable = inner - (canvas - parseInt($($(e.currentTarget).parent()[0]).css('padding-right')) - parseInt($($(e.currentTarget).parent()[0]).css('padding-left'))) < 0;
-            console.log(enable)
+            current = e.currentTarget;
+            $(current).attr('data-dragging', false);
+            inner = $(current).innerWidth();
+            canvas = $(current).parent()[0].scrollWidth;
+            offset = inner - canvas - parseInt($(current).css('padding-right'));
+            enable = inner - (canvas - parseInt($($(current).parent()[0]).css('padding-right')) - parseInt($($(current).parent()[0]).css('padding-left'))) < 0;
             if (offset < 0) {
                 pageX = e.pageX;
             }
             idInterval = setInterval(function() {
                 if (velocity != 0 && enable) {
-                    delta = parseInt($(e.currentTarget).css('left'))+velocity;
+                    delta = parseInt($(current).css('left'))+velocity;
                     if (delta > 0) {
                         delta = 0;
                     } else if (delta<offset) {
                         delta = offset;
                     }
-                    $(e.currentTarget).css({left: delta+'px'});
+                    $(current).css({left: delta+'px'});
                 }
             }, 33);
         }
@@ -45,8 +46,8 @@
         var mouseMoveHandler = function(e)
         {
             e.preventDefault();
-            $(e.currentTarget).attr('data-dragging', true);
-            if ($(e.currentTarget).attr('data-dragging') == 'true') {
+            $(current).attr('data-dragging', true);
+            if ($(current).attr('data-dragging') == 'true') {
                 velocity = e.pageX - pageX;
             }
             if (delta == 0 || delta == offset) {
@@ -59,35 +60,37 @@
             e.preventDefault();
             clearInterval(idInterval);
             velocity = 0;
-            $(e.currentTarget).css({left: 0});
+            $(current).css({left: 0});
         }
 
         var touchStartHandler = function(e)
         {
-            $(e.currentTarget).attr('data-dragging', false);
-            canvas = $(e.currentTarget).innerWidth();
-            inner = $(e.currentTarget).parent()[0].scrollWidth;
-            offset = canvas - inner - parseInt($(e.currentTarget).css('padding-right'));
+            current = e.currentTarget;
+            $(current).attr('data-dragging', false);
+            inner = $(current).innerWidth();
+            canvas = $(current).parent()[0].scrollWidth;
+            offset = inner - canvas - parseInt($(current).css('padding-right'));
+            enable = inner - (canvas - parseInt($($(current).parent()[0]).css('padding-right')) - parseInt($($(current).parent()[0]).css('padding-left'))) < 0;
             if (offset < 0) {
                 pageX = e.originalEvent.touches[0].pageX;
             }
             idInterval = setInterval(function() {
-                if (velocity != 0) {
-                    delta = parseInt($(e.currentTarget).css('left'))+velocity;
+                if (velocity != 0 && enable) {
+                    delta = parseInt($(current).css('left'))+velocity;
                     if (delta > 0) {
                         delta = 0;
                     } else if (delta<offset) {
                         delta = offset;
                     }
-                    $(e.currentTarget).css({left: delta+'px'});
+                    $(current).css({left: delta+'px'});
                 }
             }, 33);
         }
 
         var touchMoveHandler = function(e)
         {
-            $(e.currentTarget).attr('data-dragging', true);
-            if ($(e.currentTarget).attr('data-dragging') == 'true') {
+            $(current).attr('data-dragging', true);
+            if ($(current).attr('data-dragging') == 'true') {
                 velocity = e.originalEvent.touches[0].pageX - pageX;
             }
             if (delta == 0 || delta == offset) {
@@ -99,7 +102,7 @@
         {
             clearInterval(idInterval);
             velocity = 0;
-            $(e.currentTarget).css({left: 0});
+            $(current).css({left: 0});
         }
 
         return this.each(function() {
@@ -112,7 +115,9 @@
             $(this).on('mousemove', mouseMoveHandler);
             $(this).on('touchmove', touchMoveHandler);
             $(this).on('mouseup dragend', mouseUpHandler);
+            $(document).on('mouseup dragend', mouseUpHandler);
             $(this).on('touchend', touchEndHandler);
+            $(document).on('touchend', mouseUpHandler);
         });
     }
 }( jQuery ));

@@ -119,7 +119,7 @@
             </td>
         </tr>
             {% endfor %}
-            {% for tagName,tags in node.tags if tagName not in ['inheritDoc', 'link', 'see', 'uses', 'abstract', 'example', 'method', 'deprecated', 'property', 'property-read', 'property-write', 'package', 'subpackage'] %}
+            {% for tagName,tagList in node.tags if tagName not in ['inheritDoc', 'link', 'see', 'uses', 'abstract', 'example', 'method', 'deprecated', 'property', 'property-read', 'property-write', 'package', 'subpackage'] %}
         <tr>
             <th><div class="th">{{ tagName }}</div></th>
             <td>
@@ -132,7 +132,7 @@
                         {% if tag.description is not empty %}
                             {% set description = description~' '~tag.description %}
                         {% endif %}
-                        <li>{{ description|trim(side='left')|markdown|raw }}</li>
+                        <li>{{ description|trim(side='left')|markdown|raw ?: 'No Info' }}</li>
                     {% endfor %}
                 </ul>
             </td>

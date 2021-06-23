@@ -10,7 +10,7 @@
             {% set errorCount = errorCount + file.allerrors|length %}
         {% endfor %}
         {% if errorCount <= 0 %}
-        <p class="message">No errors have been found in this project.</p>
+        <p class="message">No compilation errors have been found in this project.</p>
         {% else %}
         <ul class="element">
             {% for file in project.files %}
