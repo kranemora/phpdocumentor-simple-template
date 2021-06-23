@@ -90,10 +90,17 @@ class CustomExtensionTest extends TestCase
         $twig = new Environment($loader);
         $twig->addExtension(new CustomExtension());
 
-        $expected = '<span id="L-1" class="line">1: </span><span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> <span class="php-quote">&quot;Hello world!&quot;</span>; <span class="xlang">?&gt;</span>';
+        $expected = '<span id="L-1" class="line">1: </span><span class="xlang">&lt;?php</span> '
+            .'<span class="php-keyword1">echo</span> <span class="php-quote">&quot;Hello world!&quot;</span>; '
+            .'<span class="xlang">?&gt;</span>';
         $this->assertEquals($expected, $twig->render('func_highlight'));
     }
 
+    /**
+     * Test sort no file collection by fully qualified structural element name
+     *
+     * @return void
+     */
     public function testSortfqsenNoFileFilter() : void
     {
         $twig = new Environment($this->createMock('\Twig\Loader\LoaderInterface'));
@@ -168,11 +175,27 @@ class CustomExtensionTest extends TestCase
         $extension = new CustomExtension();
 
         $collectionKeys = array_keys(iterator_to_array($extension->sortfqsen('asc', $collection)));
-        $expected = ['aFoo.php', 'eFoo.php', 'wFoo.php', 'duplicateWFoo.php', 'zFoo.php', 'file-level\aFoo.php', 'file-level\wFoo.php'];
+        $expected = [
+            'aFoo.php',
+            'eFoo.php',
+            'wFoo.php',
+            'duplicateWFoo.php',
+            'zFoo.php',
+            'file-level\aFoo.php',
+            'file-level\wFoo.php'
+        ];
         $this->assertEquals(json_encode($expected), json_encode($collectionKeys));
 
         $collectionKeys = array_keys(iterator_to_array($extension->sortfqsen('desc', $collection)));
-        $expected = ['file-level\wFoo.php', 'file-level\aFoo.php', 'zFoo.php', 'wFoo.php', 'duplicateWFoo.php', 'eFoo.php', 'aFoo.php'];
+        $expected = [
+            'file-level\wFoo.php',
+            'file-level\aFoo.php',
+            'zFoo.php',
+            'wFoo.php',
+            'duplicateWFoo.php',
+            'eFoo.php',
+            'aFoo.php'
+        ];
         $this->assertEquals(json_encode($expected), json_encode($collectionKeys));
     }
 }
