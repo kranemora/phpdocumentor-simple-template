@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdocumentor configVersion="3.0" title="Simple Template">
+  <paths>
+    <output>docs</output>
+    <cache>tmp/docs-cache</cache>
+  </paths>
+  <version number="3.0">
+    <api format="php">
+      <source dsn=".">
+      <path>src</path>
+      </source>
+      <default-package-name>Default</default-package-name>
+      <include-source>true</include-source>
+    </api>
+  </version>
+  <template name="vendor/kranemora/phpdocumentor-simple-template/data/templates/simple">
+  </template>
+</phpdocumentor>

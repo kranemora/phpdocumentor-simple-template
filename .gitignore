@@ -1,6 +1,6 @@
 /vendor/
-/examples/
-/coverage/
+/examples/*/tmp/
 /var/
+/tmp/
 .phpunit.result.cache
 .phpdoc

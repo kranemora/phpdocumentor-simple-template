@@ -73,32 +73,32 @@ services:
     ###################################################################################
 
     phpDocumentor\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/*'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/*'
         exclude:
-          - '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/**/Messages'
-          - '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Pipeline/Stage'
-          - '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Transformer/**/{Event, Exception}/{**}'
+          - '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/**/Messages'
+          - '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Pipeline/Stage'
+          - '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Transformer/**/{Event, Exception}/{**}'
 
     phpDocumentor\Console\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Console'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Console'
 
     phpDocumentor\Descriptor\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Descriptor'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Descriptor'
 
     phpDocumentor\Parser\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Parser'
-        exclude: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Parser/Middleware'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Parser'
+        exclude: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Parser/Middleware'
 
     phpDocumentor\Parser\Middleware\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Parser/Middleware'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Parser/Middleware'
         tags: [ { name: 'phpdoc.parser.middleware', priority: 1000 } ]
 
     phpDocumentor\Transformer\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Transformer'
-        exclude: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Transformer/**/{Event, Exception}/{**}'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Transformer'
+        exclude: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Transformer/**/{Event, Exception}/{**}'
 
     phpDocumentor\Compiler\:
-        resource: '../vendor/phpdocumentor/phpdocumentor/src/phpDocumentor/Compiler'
+        resource: '../../../phpdocumentor/phpdocumentor/src/phpDocumentor/Compiler'
 
     ###################################################################################
     ## Autoloading definitions for individual classes #################################
@@ -298,14 +298,14 @@ services:
         - { name: 'phpdoc.pipeline.api_documentation.parse', priority: -1000 }
 
     phpDocumentor\Guides\:
-      resource: '../vendor/phpdocumentor/phpdocumentor/src/Guides/*'
+      resource: '../../../phpdocumentor/phpdocumentor/src/Guides/*'
 
     phpDocumentor\Guides\Handlers\:
-      resource: '../vendor/phpdocumentor/phpdocumentor/src/Guides/Handlers/*Handler.php'
+      resource: '../../../phpdocumentor/phpdocumentor/src/Guides/Handlers/*Handler.php'
       tags: [{name: tactician.handler, typehints: true}]
 
     phpDocumentor\Guides\RestructuredText\Handlers\:
-      resource: '../vendor/phpdocumentor/phpdocumentor/src/Guides/RestructuredText/Handlers/*Handler.php'
+      resource: '../../../phpdocumentor/phpdocumentor/src/Guides/RestructuredText/Handlers/*Handler.php'
       tags: [{name: tactician.handler, typehints: true}]
 
     phpDocumentor\Guides\RestructuredText\Handlers\ParseFileHandler:
@@ -315,11 +315,11 @@ services:
       tags: [{name: tactician.handler, typehints: true}]
 
     phpDocumentor\Guides\RestructuredText\Directives\:
-      resource: '../vendor/phpdocumentor/phpdocumentor/src/Guides/RestructuredText/Directives/*'
+      resource: '../../../phpdocumentor/phpdocumentor/src/Guides/RestructuredText/Directives/*'
       tags: [ { name: 'phpdoc.guides.directive' } ]
 
     phpDocumentor\Guides\References\:
-      resource: '../vendor/phpdocumentor/phpdocumentor/src/Guides/References/*'
+      resource: '../../../phpdocumentor/phpdocumentor/src/Guides/References/*'
       exclude:
-        - '../vendor/phpdocumentor/phpdocumentor/src/Guides/References/{Resolver,ResolvedReference}.php'
+        - '../../../phpdocumentor/phpdocumentor/src/Guides/References/{Resolver,ResolvedReference}.php'
       tags: [ { name: 'phpdoc.guides.reference' } ]

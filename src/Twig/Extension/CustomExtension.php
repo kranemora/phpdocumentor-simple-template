@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Twig Custom Extensions for phpDocumentor
  *
@@ -10,7 +11,6 @@
  * @license    https://opensource.org/licenses/mit-license.php MIT License
  * @link       https://github.com/kranemora/phpdocumentor-simple-template/
  */
-declare(strict_types=1);
 
 namespace kranemora\Twig\Extension;
 
@@ -24,7 +24,7 @@ use phpDocumentor\Descriptor\DescriptorAbstract;
  * Additional functions:
  * - descriptor(element): get the type of the element (function, method, constant, property)
  * - highlight(string): Get source code with sintaxis highlight
- * 
+ *
  * Additional filters:
  * - sortfqsen_desc: Sorts the given objects by their Path (FileDescriptor) or FullyQualifiedStructuralElementName
  * (any other) in a descending fashion
@@ -119,7 +119,7 @@ class CustomExtension extends \Twig\Extension\AbstractExtension
      *
      * @return \ArrayIterator Object sorted
      */
-    function sortfqsen(string $direction, Collection $collection) : ArrayIterator
+    public function sortfqsen(string $direction, Collection $collection) : ArrayIterator
     {
         $iterator = $collection->getIterator();
         $iterator->uasort(

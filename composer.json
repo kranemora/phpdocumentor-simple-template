@@ -22,6 +22,7 @@
             "kranemora\\Twig\\": "tests/TestCase/Twig/"
         }
     },
+    "minimum-stability": "stable",
     "require": {
         "phpdocumentor/phpdocumentor": "^3.0",
         "kukulich/fshl": "^2.1"

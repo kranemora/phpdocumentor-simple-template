@@ -1,0 +1,125 @@
+<!doctype html>
+<html class="no-js" lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>src/Pizza.php | Simple Template Example</title>
+  <meta name="description" content="Simple Template Example">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="author" content="Fernando Pita"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+  <link rel="manifest" href="../site.webmanifest">
+  <link rel="mask-icon" href="../safari-pinned-tab.svg" color="#8dd35f">
+  <meta name="msapplication-TileColor" content="#8dd35f">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1 class="brand"><a href="../index.html">Simple Template Example</a></h1>
+            <nav>
+                <h2 class="handler-reports">Reports</h2>
+                <ul>
+                    <li><a href="../reports/errors.html">Errors</a></li>
+                    <li><a href="../reports/markers.html">Markers</a></li>
+                    <li><a href="../reports/deprecated.html">Deprecated</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <div class="search">
+        <input id="search" type="text" placeholder="Search for..." autocomplete="off">
+    </div>
+    <main class="namespaces">
+        <h2>Pizza.php</h2>
+        <p class="short-description">No description.</p>
+                <div class="table-wrapper">
+            <table class="metadata">
+                <tr>
+                    <th><div class="th">package</div></th>
+                    <td><p><a href="../packages/Marios.html">\Marios</a></p></td>
+                </tr>
+                                    </table>
+        </div>
+        <div class="source">
+            <pre><span id="L-1" class="line"> 1: </span><span class="xlang">&lt;?php</span>
+<span id="L-2" class="line"> 2: </span>
+<span id="L-3" class="line"> 3: </span><span class="php-keyword1">declare</span>(strict_types=<span class="php-num">1</span>);
+<span id="L-4" class="line"> 4: </span>
+<span id="L-5" class="line"> 5: </span><span class="php-keyword1">namespace</span> Marios;
+<span id="L-6" class="line"> 6: </span>
+<span id="L-7" class="line"> 7: </span><span class="php-comment">/**
+</span><span id="L-8" class="line"> 8: </span><span class="php-comment"> * @package Domain
+</span><span id="L-9" class="line"> 9: </span><span class="php-comment"> */</span>
+<span id="L-10" class="line">10: </span><span class="php-keyword1">final</span> <span class="php-keyword1">class</span> Pizza
+<span id="L-11" class="line">11: </span>{
+<span id="L-12" class="line">12: </span>    <span class="php-keyword1">use</span> SharedTrait { sayHello <span class="php-keyword1">as</span> <span class="php-keyword1">private</span> myPrivateHello; }
+<span id="L-13" class="line">13: </span>
+<span id="L-14" class="line">14: </span>    <span class="php-keyword1">public</span> <span class="php-keyword1">const</span> TYPE_ITALIAN = <span class="php-quote">'italian'</span>;
+<span id="L-15" class="line">15: </span>
+<span id="L-16" class="line">16: </span>    <span class="php-comment">/**
+</span><span id="L-17" class="line">17: </span><span class="php-comment">     * Not a real pizza.
+</span><span id="L-18" class="line">18: </span><span class="php-comment">     *
+</span><span id="L-19" class="line">19: </span><span class="php-comment">     * Does not need much more of an explanation, does it? ;)
+</span><span id="L-20" class="line">20: </span><span class="php-comment">     *
+</span><span id="L-21" class="line">21: </span><span class="php-comment">     * @deprecated
+</span><span id="L-22" class="line">22: </span><span class="php-comment">     * @var string
+</span><span id="L-23" class="line">23: </span><span class="php-comment">     */</span>
+<span id="L-24" class="line">24: </span>    <span class="php-keyword1">private</span> <span class="php-keyword1">const</span> TYPE_AMERICAN = <span class="php-quote">'american'</span>;
+<span id="L-25" class="line">25: </span>
+<span id="L-26" class="line">26: </span>    <span class="php-keyword1">private</span> <span class="php-keyword1">const</span> TYPE_HYBRID = [<span class="php-quote">'italian,spanish'</span>,<span class="php-num">1</span>, <span class="php-quote">'american'</span>];
+<span id="L-27" class="line">27: </span>
+<span id="L-28" class="line">28: </span>    <span class="php-comment">/**
+</span><span id="L-29" class="line">29: </span><span class="php-comment">     * Name of your own custom Pizza.
+</span><span id="L-30" class="line">30: </span><span class="php-comment">     *
+</span><span id="L-31" class="line">31: </span><span class="php-comment">     * Want to show to your friends how cool your pizza baking skills are? Now you can! Name your Pizza anything you
+</span><span id="L-32" class="line">32: </span><span class="php-comment">     * want and stun them with your awesome creativity!
+</span><span id="L-33" class="line">33: </span><span class="php-comment">     */</span>
+<span id="L-34" class="line">34: </span>    <span class="php-keyword1">public</span> string <span class="php-var">$name</span> = <span class="php-quote">''</span>;
+<span id="L-35" class="line">35: </span>
+<span id="L-36" class="line">36: </span>    <span class="php-keyword1">public</span> <span class="php-keyword1">static</span> string <span class="php-var">$description</span> = <span class="php-quote">''</span>;
+<span id="L-37" class="line">37: </span>
+<span id="L-38" class="line">38: </span>    <span class="php-comment">/**
+</span><span id="L-39" class="line">39: </span><span class="php-comment">     * I don't know what this does; can we delete this?
+</span><span id="L-40" class="line">40: </span><span class="php-comment">     * @deprecated
+</span><span id="L-41" class="line">41: </span><span class="php-comment">     */</span>
+<span id="L-42" class="line">42: </span>    <span class="php-keyword1">public</span> <span class="php-var">$extra</span>;
+<span id="L-43" class="line">43: </span>
+<span id="L-44" class="line">44: </span>    <span class="php-comment">/**
+</span><span id="L-45" class="line">45: </span><span class="php-comment">     * Om nom nom.
+</span><span id="L-46" class="line">46: </span><span class="php-comment">     *
+</span><span id="L-47" class="line">47: </span><span class="php-comment">     * What else do you do with a pizza? Put it in your freezer?
+</span><span id="L-48" class="line">48: </span><span class="php-comment">     *
+</span><span id="L-49" class="line">49: </span><span class="php-comment">     * @return void
+</span><span id="L-50" class="line">50: </span><span class="php-comment">     */</span>
+<span id="L-51" class="line">51: </span>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> eatIt()
+<span id="L-52" class="line">52: </span>    {
+<span id="L-53" class="line">53: </span>    }
+<span id="L-54" class="line">54: </span>}
+<span id="L-55" class="line">55: </span></pre>
+        </div>
+    </main>
+    <script src="../js/modernizr-3.11.2.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="../js/jquery-3.6.0.min.js"><\/script>')</script>
+    <script src="../js/jquery.menu-handler.js"></script>
+    <script src="../js/fuse.js"></script>
+    <script src="../js/jquery.search.js"></script>
+    <script src="../js/jquery.overflow.js"></script>
+    <script>
+        jQuery(function(){
+            $('.handler-reports').menuHandler({'target': 'ul'});
+            $('.handler-method').menuHandler({'target': '.target-method'});
+            $('.handler-function').menuHandler({'target': '.target-function'});
+            $('.handler-constant').menuHandler({'target': '.target-constant'});
+            $('.handler-property').menuHandler({'target': '.target-property'});
+            $('#search').search({
+                json:'../js/search.json'
+            });
+        });
+                    </script>
+</body>
+</html>
